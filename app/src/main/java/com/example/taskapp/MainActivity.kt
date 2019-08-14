@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener { _ ->
             val intent = Intent(this@MainActivity, InputActivity::class.java)
             startActivity(intent)
         }
@@ -102,6 +102,62 @@ class MainActivity : AppCompatActivity() {
 
         reloadListView()
 
+        val editText = findViewById<View>(R.id.search_edit_text) as EditText
+
+
+
+        editText.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+                //テキスト変更前
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                //テキスト変更中
+            }
+
+            override fun afterTextChanged(s: Editable) {//テキスト変更後
+
+
+                if(s.toString().equals("")) {
+
+                    // Realmデータベースから、「全てのデータを取得して新しい日時順に並べた結果」を取得
+                    val taskRealmResults = mRealm.where(Task::class.java).findAll().sort("date", Sort.DESCENDING)
+
+                    // 上記の結果を、TaskList としてセットする
+                    mTaskAdapter.taskList = mRealm.copyFromRealm(taskRealmResults)
+
+                    // TaskのListView用のアダプタに渡す
+                    listView1.adapter = mTaskAdapter
+
+                    // 表示を更新するために、アダプターにデータが変更されたことを知らせる
+                    mTaskAdapter.notifyDataSetChanged()
+                }
+
+                else {
+                    // Realmデータベースから、「全てのデータを取得して新しいカテゴリーに並べた結果」を取得
+                    val taskRealmResults = mRealm.where(Task::class.java).equalTo("category", s.toString()).findAll()
+                        .sort("date", Sort.DESCENDING)
+
+
+                    // 上記の結果を、TaskList としてセットする
+                    mTaskAdapter.taskList = mRealm.copyFromRealm(taskRealmResults)
+
+                    // TaskのListView用のアダプタに渡す
+                    listView1.adapter = mTaskAdapter
+
+                    // 表示を更新するために、アダプターにデータが変更されたことを知らせる
+                    mTaskAdapter.notifyDataSetChanged()
+
+                }
+
+
+
+
+            }
+        })
+
 
     }
 
@@ -119,40 +175,6 @@ class MainActivity : AppCompatActivity() {
         mTaskAdapter.notifyDataSetChanged()
     }
 
-    fun search() {
-        val editText = findViewById<View>(R.id.search_edit_text) as EditText
-
-        editText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                //テキスト変更前
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                //テキスト変更中
-            }
-
-            override fun afterTextChanged(s: Editable) {
-
-                //テキスト変更後
-            }
-        })
-
-
-
-        // Realmデータベースから、「全てのデータを取得して新しいカテゴリーに並べた結果」を取得
-        val taskRealmResults = mRealm.where(Task::class.java).findAll().sort("editText", Sort.DESCENDING)
-
-
-            // 上記の結果を、TaskList としてセットする
-            mTaskAdapter.taskList = mRealm.copyFromRealm(taskRealmResults)
-
-        // TaskのListView用のアダプタに渡す
-        listView1.adapter = mTaskAdapter
-
-        // 表示を更新するために、アダプターにデータが変更されたことを知らせる
-        mTaskAdapter.notifyDataSetChanged()
-
-    }
 
 
     override fun onDestroy() {
