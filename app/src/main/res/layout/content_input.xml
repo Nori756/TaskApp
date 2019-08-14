@@ -56,5 +56,14 @@
             android:layout_below="@id/times_button"
             android:layout_alignParentRight="true"
             android:text="決定" android:layout_marginTop="25dp" android:layout_marginRight="21dp"/>
+    <Button
+            android:id="@+id/category"
+            android:layout_width="242dp"
+            android:layout_height="97dp"
+            android:layout_gravity="bottom"
+            app:layout_anchorGravity="bottom"
+            app:layout_anchor="@+id/done_button" android:layout_marginTop="38dp"
+            android:hint="カテゴリー"
+            android:layout_below="@+id/date_button"/>
 
 </RelativeLayout>
