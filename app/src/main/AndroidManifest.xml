@@ -46,7 +46,7 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
     </activity>
-        
+
     </application>
 
 </manifest>
