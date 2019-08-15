@@ -114,7 +114,7 @@ class InputActivity : AppCompatActivity() {
         }
 
         category.setOnClickListener{
-            val intent = Intent(this@InputActivity, Category::class.java)
+            val intent = Intent(this@InputActivity, Category_Activity::class.java)
             startActivity(intent)
         }
 
