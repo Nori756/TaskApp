@@ -44,5 +44,4 @@ class TaskAdapter(context: Context): BaseAdapter() {
         return view
     }
 
-
 }
