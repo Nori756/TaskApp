@@ -171,7 +171,7 @@ class MainActivity : AppCompatActivity() {
         // 表示を更新するために、アダプターにデータが変更されたことを知らせる
         mCategoryAdapter.notifyDataSetChanged()
         // 選択肢
-        val spinnerItems = arrayOf(categoryList)
+        val spinnerItems = arrayOf(category)
         //val spinner = findViewById<Spinner>(R.id.spinner)
 
         // ArrayAdapter
