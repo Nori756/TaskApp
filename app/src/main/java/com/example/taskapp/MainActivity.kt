@@ -35,11 +35,15 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mTaskAdapter: TaskAdapter
 
-    private lateinit var mCategoryAdapter: CategoryAdapter
+    private lateinit var mArrayAdapter: ArrayAdapter<String>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        ArrayAdapter ArrayAdapter = new ArrayAdapter(this, id, list);
+
 
         fab.setOnClickListener { _ ->
             val intent = Intent(this@MainActivity, InputActivity::class.java)
@@ -156,30 +160,25 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        // Realmデータベースから、「全てのデータを取得して並べた結果」を取得
+
+        // Realmデータベースから、「全てのデータを取得して新しい日時順に並べた結果」を取得
         val categoryRealmResults = mRealm.where(Category::class.java).findAll()
 
-        // ListViewの設定
-        mCategoryAdapter = CategoryAdapter(this@MainActivity)
+        // 上記の結果を、カテゴリーList としてセットする
+        mArrayAdapter.CategoryList= mRealm.copyFromRealm(categoryRealmResults)
 
-        // 上記の結果を、CategoryList としてセットする
-        mCategoryAdapter.categoryList = mRealm.copyFromRealm(categoryRealmResults)
-
-        // CategoryのListView用のアダプタに渡す
-        listView1.adapter = mCategoryAdapter
+        // TaskのListView用のアダプタに渡す
+        listView1.adapter = mArrayAdapter
 
         // 表示を更新するために、アダプターにデータが変更されたことを知らせる
-        mCategoryAdapter.notifyDataSetChanged()
-        // 選択肢
+        mArrayAdapter.notifyDataSetChanged()
+
+
         val spinnerItems = arrayOf(category)
-        //val spinner = findViewById<Spinner>(R.id.spinner)
 
         // ArrayAdapter
-        val adapter = CategoryAdapter(
-            applicationContext,
-
-            android.R.layout.simple_spinner_item, spinnerItems
-        )
+        val adapter = ArrayAdapter(applicationContext,
+            android.R.layout.simple_spinner_item, spinnerItems)
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
@@ -203,7 +202,6 @@ class MainActivity : AppCompatActivity() {
             //　アイテムが選択されなかった
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 //
-
 
             }
         }

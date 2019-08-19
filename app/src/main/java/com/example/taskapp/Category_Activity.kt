@@ -22,7 +22,7 @@ class Category_Activity : AppCompatActivity() {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_category_)
 
-            // EXTRA_TASK から Task の id を取得して、 id から Task のインスタンスを取得する
+            // EXTRA_TASK から Task の id を取得して、 id から カテゴリー のインスタンスを取得する
             val intent = intent
             val categoryId = intent.getIntExtra(EXTRA_TASK, -1)
             val realm = Realm.getDefaultInstance()
