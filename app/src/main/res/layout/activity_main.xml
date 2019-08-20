@@ -48,12 +48,6 @@
                 android:layout_marginTop="100dp"
                 android:textSize="40sp" />
 
-        <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:background="#fff" />
 
     </LinearLayout>
 

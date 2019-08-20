@@ -49,11 +49,6 @@ class InputActivity : AppCompatActivity() {
         timePickerDialog.show()
     }
 
-
-
-
-
-
     private val mOnDoneClickListener = View.OnClickListener {
         addTask()
         finish()
@@ -112,12 +107,6 @@ class InputActivity : AppCompatActivity() {
             date_button.text = dateString
             times_button.text = timeString
         }
-
-        category.setOnClickListener{
-            val intent = Intent(this@InputActivity, Category_Activity::class.java)
-            startActivity(intent)
-        }
-
     }
 
     private fun addTask() {

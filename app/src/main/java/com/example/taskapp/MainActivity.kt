@@ -1,5 +1,6 @@
 package com.example.taskapp
 
+
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Intent
@@ -18,10 +19,9 @@ import java.util.*
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.AdapterView
 import android.widget.EditText
-import android.widget.Spinner
-import android.widget.ArrayAdapter
+
+
 
 const val EXTRA_TASK ="com.example.taskapp.TASK"
 
@@ -35,15 +35,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mTaskAdapter: TaskAdapter
 
-    private lateinit var mArrayAdapter: ArrayAdapter<String>
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        ArrayAdapter ArrayAdapter = new ArrayAdapter(this, id, list);
-
 
         fab.setOnClickListener { _ ->
             val intent = Intent(this@MainActivity, InputActivity::class.java)
@@ -77,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             builder.setTitle("削除")
             builder.setMessage(task.title + "を削除しますか")
 
-            builder.setPositiveButton("OK") { _, _ ->
+            builder.setPositiveButton("OK"){_, _ ->
                 val results = mRealm.where(Task::class.java).equalTo("id", task.id).findAll()
 
                 mRealm.beginTransaction()
@@ -126,7 +121,7 @@ class MainActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable) {//テキスト変更後
 
 
-                if (s.toString().equals("")) {
+                if(s.toString().equals("")) {
 
                     // Realmデータベースから、「全てのデータを取得して新しい日時順に並べた結果」を取得
                     val taskRealmResults = mRealm.where(Task::class.java).findAll().sort("date", Sort.DESCENDING)
@@ -139,7 +134,9 @@ class MainActivity : AppCompatActivity() {
 
                     // 表示を更新するために、アダプターにデータが変更されたことを知らせる
                     mTaskAdapter.notifyDataSetChanged()
-                } else {
+                }
+
+                else {
                     // Realmデータベースから、「全てのデータを取得して新しいカテゴリーに並べた結果」を取得
                     val taskRealmResults = mRealm.where(Task::class.java).equalTo("category", s.toString()).findAll()
                         .sort("date", Sort.DESCENDING)
@@ -157,54 +154,12 @@ class MainActivity : AppCompatActivity() {
                 }
 
 
+
+
             }
         })
 
 
-        // Realmデータベースから、「全てのデータを取得して新しい日時順に並べた結果」を取得
-        val categoryRealmResults = mRealm.where(Category::class.java).findAll()
-
-        // 上記の結果を、カテゴリーList としてセットする
-        mArrayAdapter.CategoryList= mRealm.copyFromRealm(categoryRealmResults)
-
-        // TaskのListView用のアダプタに渡す
-        listView1.adapter = mArrayAdapter
-
-        // 表示を更新するために、アダプターにデータが変更されたことを知らせる
-        mArrayAdapter.notifyDataSetChanged()
-
-
-        val spinnerItems = arrayOf(category)
-
-        // ArrayAdapter
-        val adapter = ArrayAdapter(applicationContext,
-            android.R.layout.simple_spinner_item, spinnerItems)
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        // spinner に adapter をセット
-        // Kotlin Android Extensions
-        spinner.adapter = adapter
-
-        // リスナーを登録
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            //　アイテムが選択された時
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?, position: Int, id: Long
-            ) {
-                val spinnerParent = parent as Spinner
-                val item = spinnerParent.selectedItem as String
-                // Kotlin Android Extensions
-                textView.text = item
-            }
-
-            //　アイテムが選択されなかった
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                //
-
-            }
-        }
     }
 
     private fun reloadListView() {

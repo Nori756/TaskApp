@@ -38,12 +38,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.taskapp.MainActivity"/>
 
-        <activity
-                android:name=".Category_Activity"
-                android:label="カテゴリー"
-                android:parentActivityName=".MainActivity"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+
     </application>
 
 </manifest>
